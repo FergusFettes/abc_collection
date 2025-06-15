@@ -3,6 +3,7 @@
 import os
 import subprocess
 import typer
+import csv
 from pathlib import Path
 from typing import Optional
 import rich
@@ -169,6 +170,29 @@ def process_all(
         except Exception as e:
             typer.echo(f"Error processing {file.name}: {e}", err=True)
             continue
+
+@app.command()
+def make_flashcards(output_file: Path = Path("music_flashcards.csv")):
+    """Create Anki flashcards for all ABC files."""
+    abc_dir = Path('abc')
+    if not abc_dir.exists():
+        typer.echo("ABC directory not found!", err=True)
+        raise typer.Exit(1)
+        
+    files = sorted(abc_dir.glob('*.abc'))
+    if not files:
+        typer.echo("No ABC files found!")
+        return
+
+    with open(output_file, 'w', newline='') as f:
+        writer = csv.writer(f)
+        # Write header
+        writer.writerow(["Front", "Back"])
+        # Write a row for each song
+        for file in files:
+            writer.writerow([file.stem, "Play this song"])
+    
+    typer.echo(f"Created flashcards file: {output_file}")
 
 if __name__ == "__main__":
     app()
