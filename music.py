@@ -4,6 +4,7 @@ import os
 import subprocess
 import typer
 import csv
+import shutil
 from pathlib import Path
 from typing import Optional
 import rich
@@ -191,6 +192,31 @@ def make_flashcards(output_file: Path = Path("music_flashcards.csv")):
             writer.writerow([f"[sound:{file.name}]", "Play this song"])
     
     typer.echo(f"Created flashcards file: {output_file}")
+
+@app.command()
+def copy_to_anki():
+    """Copy all MP3 files to Anki's media collection folder."""
+    mp3_dir = Path('mp3')
+    if not mp3_dir.exists():
+        typer.echo("MP3 directory not found!", err=True)
+        raise typer.Exit(1)
+        
+    anki_media = Path.home() / "Library/Application Support/Anki2/User 1/collection.media"
+    if not anki_media.exists():
+        typer.echo("Anki media folder not found!", err=True)
+        raise typer.Exit(1)
+
+    files = sorted(mp3_dir.glob('*.mp3'))
+    if not files:
+        typer.echo("No MP3 files found!")
+        return
+
+    for file in files:
+        dest = anki_media / file.name
+        shutil.copy2(file, dest)
+        typer.echo(f"Copied {file.name} to Anki media folder")
+    
+    typer.echo(f"Copied {len(files)} files to Anki media folder")
 
 if __name__ == "__main__":
     app()
