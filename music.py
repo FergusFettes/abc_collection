@@ -172,7 +172,7 @@ def process_all(
             continue
 
 @app.command()
-def make_flashcards(output_file: Path = Path("music_flashcards.csv")):
+def make_flashcards(output_file: Path = Path("mp3/music_flashcards.csv")):
     """Create Anki flashcards for all MP3 files."""
     mp3_dir = Path('mp3')
     if not mp3_dir.exists():
@@ -190,7 +190,7 @@ def make_flashcards(output_file: Path = Path("music_flashcards.csv")):
         writer.writerow(["Front", "Back"])
         # Write a row for each song
         for file in files:
-            writer.writerow([f"[sound:{file.absolute()}]", "Play this song"])
+            writer.writerow([f"[sound:{file.name}]", "Play this song"])
     
     typer.echo(f"Created flashcards file: {output_file}")
 
