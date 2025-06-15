@@ -79,7 +79,7 @@ def process(
     transpose: bool = True,
     render: bool = True,
     key: Optional[str] = 'C',
-    output_dir: Path = Path('.')
+    output_dir: Path = Path('mp3')
 ) -> None:
     """Process an ABC file: optionally transpose it and render to MP3."""
 
