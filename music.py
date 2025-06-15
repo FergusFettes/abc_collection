@@ -106,6 +106,11 @@ def process(
             midi_to_mp3(midi_file, mp3_file)
             typer.echo(f"Created MP3: {mp3_file}")
             
+            # Clean up intermediate files
+            midi_file.unlink()
+            if transpose:
+                working_file.unlink()  # Remove the transposed ABC file
+            
     except subprocess.CalledProcessError as e:
         typer.echo(f"Error in external command: {e}", err=True)
         raise typer.Exit(1)
