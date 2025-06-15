@@ -10,15 +10,24 @@ fi
 key=$(grep "^K:" "$1" | cut -d':' -f2 | tr -d ' ')
 
 # Define semitone distances from C
-declare -A distances=(
-    ["C"]=0  ["C#"]=1  ["Db"]=1
-    ["D"]=2  ["D#"]=3  ["Eb"]=3
-    ["E"]=4
-    ["F"]=5  ["F#"]=6  ["Gb"]=6
-    ["G"]=7  ["G#"]=8  ["Ab"]=8
-    ["A"]=9  ["A#"]=10 ["Bb"]=10
-    ["B"]=11
-)
+declare -A distances
+distances["C"]=0
+distances["C#"]=1
+distances["Db"]=1
+distances["D"]=2
+distances["D#"]=3
+distances["Eb"]=3
+distances["E"]=4
+distances["F"]=5
+distances["F#"]=6
+distances["Gb"]=6
+distances["G"]=7
+distances["G#"]=8
+distances["Ab"]=8
+distances["A"]=9
+distances["A#"]=10
+distances["Bb"]=10
+distances["B"]=11
 
 # Get the base key (first character)
 basekey=${key:0:1}
@@ -28,8 +37,8 @@ if [[ $key =~ [b#] ]]; then
 fi
 
 # Calculate transposition needed (negative to go down to C)
-if [ ${distances[$basekey]+_} ]; then
-    transpose=$((0 - ${distances[$basekey]}))
+if [[ -n "${distances[$basekey]}" ]]; then
+    transpose=$((0 - distances[$basekey]))
     echo $transpose
 else
     echo "Error: Unrecognized key $key" >&2
