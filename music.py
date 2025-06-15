@@ -8,6 +8,23 @@ from typing import Optional
 
 app = typer.Typer()
 
+@app.command()
+def list():
+    """List all ABC files in the ./abc directory."""
+    abc_dir = Path('abc')
+    if not abc_dir.exists():
+        typer.echo("ABC directory not found!", err=True)
+        raise typer.Exit(1)
+        
+    files = sorted(abc_dir.glob('*.abc'))
+    if not files:
+        typer.echo("No ABC files found!")
+        return
+        
+    typer.echo("Available ABC files:")
+    for file in files:
+        typer.echo(f"  {file.name}")
+
 def get_key_from_abc(filename: Path) -> str:
     """Extract the key from an ABC file's K: field."""
     with open(filename) as f:
