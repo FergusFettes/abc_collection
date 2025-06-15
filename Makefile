@@ -10,6 +10,9 @@ MP3FILES := $(ABCFILES:.abc=.mp3)
 %.mp3: %.mid
 	timidity $< -Ow -o - | lame - $@
 
+%: %.mp3
+	@echo "Created $<"
+
 .PHONY: all clean
 
 all: $(MP3FILES)
