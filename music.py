@@ -173,15 +173,15 @@ def process_all(
 
 @app.command()
 def make_flashcards(output_file: Path = Path("music_flashcards.csv")):
-    """Create Anki flashcards for all ABC files."""
-    abc_dir = Path('abc')
-    if not abc_dir.exists():
-        typer.echo("ABC directory not found!", err=True)
+    """Create Anki flashcards for all MP3 files."""
+    mp3_dir = Path('mp3')
+    if not mp3_dir.exists():
+        typer.echo("MP3 directory not found!", err=True)
         raise typer.Exit(1)
         
-    files = sorted(abc_dir.glob('*.abc'))
+    files = sorted(mp3_dir.glob('*.mp3'))
     if not files:
-        typer.echo("No ABC files found!")
+        typer.echo("No MP3 files found!")
         return
 
     with open(output_file, 'w', newline='') as f:
@@ -190,7 +190,7 @@ def make_flashcards(output_file: Path = Path("music_flashcards.csv")):
         writer.writerow(["Front", "Back"])
         # Write a row for each song
         for file in files:
-            writer.writerow([file.stem, "Play this song"])
+            writer.writerow([file.stem, f"[sound:{file.name}]"])
     
     typer.echo(f"Created flashcards file: {output_file}")
 
