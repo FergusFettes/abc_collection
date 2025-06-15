@@ -190,7 +190,7 @@ def make_flashcards(output_file: Path = Path("music_flashcards.csv")):
         writer.writerow(["Front", "Back"])
         # Write a row for each song
         for file in files:
-            writer.writerow([f"[sound:{file.name}]", "Play this song"])
+            writer.writerow([f"[sound:{file.absolute()}]", "Play this song"])
     
     typer.echo(f"Created flashcards file: {output_file}")
 
