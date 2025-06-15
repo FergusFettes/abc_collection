@@ -5,6 +5,7 @@ import subprocess
 import typer
 from pathlib import Path
 from typing import Optional
+import rich
 
 app = typer.Typer()
 
@@ -134,6 +135,40 @@ def process(
     except Exception as e:
         typer.echo(f"Error: {e}", err=True)
         raise typer.Exit(1)
+
+@app.command()
+def process_all(
+    transpose: bool = True,
+    render: bool = True,
+    key: Optional[str] = 'C',
+    output_dir: Path = Path('mp3')
+) -> None:
+    """Process all ABC files in the ./abc directory."""
+    abc_dir = Path('abc')
+    if not abc_dir.exists():
+        typer.echo("ABC directory not found!", err=True)
+        raise typer.Exit(1)
+        
+    files = sorted(abc_dir.glob('*.abc'))
+    if not files:
+        typer.echo("No ABC files found!")
+        return
+
+    output_dir.mkdir(exist_ok=True)
+    
+    for file in files:
+        typer.echo(f"\nProcessing {file.name}...")
+        try:
+            process(
+                filename=str(file),
+                transpose=transpose,
+                render=render,
+                key=key,
+                output_dir=output_dir
+            )
+        except Exception as e:
+            typer.echo(f"Error processing {file.name}: {e}", err=True)
+            continue
 
 if __name__ == "__main__":
     app()
