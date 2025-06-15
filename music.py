@@ -72,8 +72,13 @@ def process(
         if not input_path.suffix:
             input_path = input_path.with_suffix('.abc')
         
+        # Try current directory first, then ./abc directory
         if not input_path.exists():
-            raise typer.BadParameter(f"File not found: {input_path}")
+            abc_path = Path('abc') / input_path
+            if abc_path.exists():
+                input_path = abc_path
+            else:
+                raise typer.BadParameter(f"File not found in current directory or ./abc: {input_path}")
             
         base_name = input_path.stem
         output_dir = Path(output_dir)
