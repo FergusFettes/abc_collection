@@ -65,6 +65,7 @@ def process(
     output_dir: Path = Path('.')
 ) -> None:
     """Process an ABC file: optionally transpose it and render to MP3."""
+
     try:
         # Handle file paths
         input_path = Path(filename)
