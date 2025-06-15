@@ -11,6 +11,9 @@ dependencies = [
     "typer (>=0.16.0,<0.17.0)"
 ]
 
+[tool.poetry]
+package-mode = false
+
 [tool.poetry.scripts]
 music = "music:app"
 
