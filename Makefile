@@ -13,8 +13,8 @@ MP3FILES := $(ABCFILES:.abc=.mp3)
 %: %.mp3
 	@echo "Created $<"
 
-%-in-c.abc: %.abc transpose.sh
-	@trans=$$(./transpose.sh $<); \
+%-in-c.abc: %.abc transpose.py
+	@trans=$$(python3 transpose.py $<); \
 	abc2abc $< -t $$trans > $@
 
 .PHONY: all clean transpose
