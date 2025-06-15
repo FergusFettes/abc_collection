@@ -186,8 +186,6 @@ def make_flashcards(output_file: Path = Path("mp3/music_flashcards.csv")):
 
     with open(output_file, 'w', newline='') as f:
         writer = csv.writer(f)
-        # Write header
-        writer.writerow(["Front", "Back"])
         # Write a row for each song
         for file in files:
             writer.writerow([f"[sound:{file.name}]", "Play this song"])
