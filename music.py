@@ -172,7 +172,7 @@ def process_all(
             continue
 
 @app.command()
-def make_flashcards(output_file: Path = Path("mp3/music_flashcards.csv")):
+def make_flashcards(output_file: Path = Path("music_flashcards.csv")):
     """Create Anki flashcards for all MP3 files."""
     mp3_dir = Path('mp3')
     if not mp3_dir.exists():
